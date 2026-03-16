@@ -18,13 +18,13 @@ jobs:
           java-version: 17
 
       - name: Build APK
-        run: |
-          sudo apt install unzip wget -y
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
+  run: |
+    sudo apt update
+    sudo apt install gradle -y
+    gradle assembleDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: JoyToKeyAPK
-          path: app/build/outputs/apk/debug/app-debug.apk
+- name: Upload APK
+  uses: actions/upload-artifact@v3
+  with:
+    name: JoyToKeyAPK
+    path: app/build/outputs/apk/debug/app-debug.apk
