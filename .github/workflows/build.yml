@@ -19,13 +19,16 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Install Gradle
+      - name: Install Gradle 8.2
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
+          wget https://services.gradle.org/distributions/gradle-8.2-bin.zip
+          unzip gradle-8.2-bin.zip
+          export PATH=$PWD/gradle-8.2/bin:$PATH
+          gradle -v
 
       - name: Build APK
         run: |
+          export PATH=$PWD/gradle-8.2/bin:$PATH
           gradle assembleDebug
 
       - name: Upload APK
