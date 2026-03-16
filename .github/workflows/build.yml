@@ -3,28 +3,31 @@ name: Build APK
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Java
+      - name: Install Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Build APK
-  run: |
-    sudo apt update
-    sudo apt install gradle -y
-    gradle assembleDebug
+      - name: Install Gradle
+        run: sudo apt-get update && sudo apt-get install -y gradle
 
-- name: Upload APK
-  uses: actions/upload-artifact@v3
-  with:
-    name: JoyToKeyAPK
-    path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Build APK
+        run: |
+          gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: JoyToKeyAPK
+          path: app/build/outputs/apk/debug/app-debug.apk
