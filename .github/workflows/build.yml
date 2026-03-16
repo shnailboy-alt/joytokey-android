@@ -11,22 +11,22 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install Java
-        uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
       - name: Install Gradle
-        run: sudo apt-get update && sudo apt-get install -y gradle
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
 
-- name: Build APK
-  run: |
-    sudo apt-get update
-    sudo apt-get install -y gradle
-    gradle build
+      - name: Build APK
+        run: |
+          gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
